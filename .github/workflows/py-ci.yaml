@@ -5,19 +5,16 @@ on:
     #   - "main"
     #   - "develop"
 jobs:
-  checkout-code:
-    runs-on: ubuntu-latest
-    steps:
-      - name: code-checkout
-        uses: actions/checkout@v3
   py-lint:
     runs-on: ubuntu-latest
     container: 
       image: python:3.10-buster
       volumes:
-        - ${PWD}:/app
+        - /tmp/app:/app
     steps:
+    - name: code-checkout
+      uses: actions/checkout@v3
     - name: runing-pylint
       run:  | 
-        cd /app/docker-app/app && pip install -r requirements.txt && pylint app.py 
+       cd /app && ls -lthr 
       #continue-on-error: true
