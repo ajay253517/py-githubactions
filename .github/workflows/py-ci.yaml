@@ -1,0 +1,15 @@
+name: lint-test
+on: 
+  push:
+    # branches-ignore:
+    #   - "main"
+    #   - "develop"
+jobs:
+  py-lint:
+    runs-on: self-hosted
+    container: 
+      image: python:3.10-buster
+    steps:
+    - name: runing-pylint
+      run:  cd docker-app/app && pip install -r requirements.txt && pylint app.py 
+      #continue-on-error: true
