@@ -9,12 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: python:3.10-buster
-      volumes:
-        - /tmp/app:/app
     steps:
     - name: code-checkout
       uses: actions/checkout@v3
     - name: runing-pylint
       run:  | 
-       cd /app && ls -lthr 
-      #continue-on-error: true
+       cd docker-app/app && ls -lthr && pip install -r requirements.txt
+      continue-on-error: true
+  build-test:
+    needs: py-lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: build-docker
+      run: | 
+       tag=$(echo $${GITHUB_SHA} | cut -c1-5) && export tag
+       echo $tag
+       cd docker-app && docker build -t py:$tag .
