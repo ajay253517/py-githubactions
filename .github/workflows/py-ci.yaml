@@ -20,6 +20,8 @@ jobs:
     needs: py-lint
     runs-on: ubuntu-latest
     steps:
+    - name: code-checkout
+      uses: actions/checkout@v3
     - name: build-docker
       run: | 
        tag=$(echo $${GITHUB_SHA} | cut -c1-5) && export tag
